@@ -27,5 +27,3 @@ export default () => {
     <input classname="NameInput" value=${pokemonName} onchange=${onUpdatePokemonName} placeholder="Pokemon Name" />
   `
 }
-
-

@@ -12,5 +12,3 @@ export default () => {
     <img classname="PokeImage" src=${pokemon && pokemon.sprites.front_default} />
   `
 }
-
-
