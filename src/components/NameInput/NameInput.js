@@ -13,7 +13,6 @@ const usePokemon = () => {
 
   useEffect(async () => {
     const fetchedPokemon = await PokeAPI.getPokemonByName(pokemonName.toLowerCase())
-    console.log({fetchedPokemon})
     setPokemon(fetchedPokemon)
   }, [pokemonName])
 
