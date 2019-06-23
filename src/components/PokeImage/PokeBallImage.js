@@ -12,14 +12,12 @@ export default () => {
     const fetchedPokeBall = await PokeAPI.getItemByName('poke-ball')
     setPokeBall(fetchedPokeBall)
   })
-
-  console.log(pokeBall && pokeBall.sprites.default)
   
   if (!pokeBall) {
-    return null
+    return html`<div className="emptyImage" />`
   }
 
   return html`
-    <img classname="PokeImage" src=${pokeBall.sprites.default} />
+    <img classname="PokeBallImage" src=${pokeBall.sprites.default} />
   `
 }
