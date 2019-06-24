@@ -18,8 +18,9 @@ import {
     FIGHTING,
     FIRE
 } from "./types";
+import * as ALL_TYPES from './types'
 
-export const attackEffectiveness = {
+const attackEffectiveness = {
   [NORMAL]: {
     0.5: [ROCK, STEEL],
     0: [GHOST],
@@ -123,4 +124,32 @@ const attackToDefense = (defenseObject, attackType) => {
   return defenseObject;
 }
 
-export const defenseEffectiveness = Object.keys(attackEffectiveness).reduce(attackToDefense, {});
+const defenseEffectiveness = Object.keys(attackEffectiveness).reduce(attackToDefense, {});
+
+const allTypes = Object.values(ALL_TYPES).reduce((typeObject, type) => ({[type]: 1, ...typeObject}), {});
+
+export const getDefenseEffectiveness = (types) => {
+  const defenseTypeEffectivenessMap = types.reduce((defenseObject, pokemonType) => {
+    const {0: noEffect = [], 0.5: notEffective = [], 2: superEffective = []} = defenseEffectiveness[pokemonType];
+    noEffect.forEach(type => {
+      defenseObject[type] = 0; 
+    })
+    notEffective.forEach(type => {
+      defenseObject[type] = defenseObject[type] * 0.5
+    })
+    superEffective.forEach(type => {
+      defenseObject[type] = defenseObject[type] * 2
+    })
+    return defenseObject;
+  }, allTypes)
+
+  return Object.keys(defenseTypeEffectivenessMap).reduce((typeObjects, type) => 
+    [
+      {
+        type, 
+        effectiveness: defenseTypeEffectivenessMap[type]
+      }, 
+      ...typeObjects
+    ]
+  , []).filter(({effectiveness}) => effectiveness !== 1)
+}
