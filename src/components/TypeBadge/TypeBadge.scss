@@ -1,5 +1,5 @@
 
-.TypeBadge {
+.TypeBadge, .TypeBadgeLeft, .TypeBadgeRight {
   padding:5px;
   margin:5px;
   border-radius: 8px;
@@ -9,6 +9,38 @@
   text-transform: uppercase;
   font-weight: bold;
   text-shadow: 2px 2px 5px black;
+}
+
+.TypeBadgeLeft {
+  border-right: 0px;
+  margin-right: 0px;
+  border-radius: 8px 0px 0px 8px;
+}
+
+.TypeBadgeRight {
+  border-left: 0px;
+  margin-left: 0px;
+  border-radius: 0px 8px 8px 0px;
+}
+
+.level-0 {
+  background: #2e3436;
+}
+
+.level-0\.25 {
+  background: #7c0000;
+}
+
+.level-0\.5 {
+  background: #a40000;
+}
+
+.level-2 {
+  background: #4e9a06;
+}
+
+.level-4 {
+  background: #73d216;
 }
 
 .type-normal{background-color:#aa9}
