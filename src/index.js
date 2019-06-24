@@ -1,6 +1,6 @@
 import "babel-polyfill"
 import "./styles.css"
-import { registerHtml, useGlobalState, start } from "tram-one"
+import { registerHtml, start } from "tram-one"
 
 import ColorHeader from "./components/ColorHeader"
 import NameInput from "./components/NameInput"
