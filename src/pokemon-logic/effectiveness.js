@@ -2,6 +2,8 @@ import {
     NORMAL,
     ROCK,
     GHOST,
+    GRASS,
+    GROUND,
     ICE,
     STEEL,
     WATER,
@@ -19,7 +21,7 @@ import {
 
 export const attackEffectiveness = {
   [NORMAL]: {
-    0.5: [ ROCK, STEEL],
+    0.5: [ROCK, STEEL],
     0: [GHOST],
   },
   [FIRE]: {
@@ -33,7 +35,7 @@ export const attackEffectiveness = {
   [ELECTRIC]: {
     2: [WATER, FLYING],
     0.5: [ELECTRIC, GRASS, DRAGON],
-    0: GROUND
+    0: [GROUND]
   },
   [GRASS]: {
     2: [WATER, GROUND, ROCK],
@@ -98,3 +100,27 @@ export const attackEffectiveness = {
     0.5: [FIRE, POISON, STEEL]
   }
 }
+
+const attackToDefense = (defenseObject, attackType) => {
+  const attackEffectivenessForType = attackEffectiveness[attackType]
+  const { 0: noEffect=[], 0.5: notEffective=[], 2: superEffective=[] } = attackEffectivenessForType;
+  
+  // build default keys if they don't already exist in our defense object
+  [...noEffect, ...notEffective, ...superEffective].forEach((defType) => {
+    defenseObject[defType] = defenseObject[defType] || {0: [], 0.5: [], 2: []}
+  })
+
+  noEffect.forEach((defType) => {
+    defenseObject[defType][0].push(attackType)
+  })
+  notEffective.forEach((defType) => {
+    defenseObject[defType][0.5].push(attackType)
+  })
+  superEffective.forEach((defType) => {
+    defenseObject[defType][2].push(attackType)
+  })
+
+  return defenseObject;
+}
+
+export const defenseEffectiveness = Object.keys(attackEffectiveness).reduce(attackToDefense, {});

@@ -6,6 +6,7 @@ import ColorHeader from "./components/ColorHeader"
 import NameInput from "./components/NameInput"
 import PokeImage from "./components/PokeImage"
 import PokemonTypes from "./components/PokemonTypes"
+import { attackEffectiveness, defenseEffectiveness } from "./pokemon-logic/effectiveness";
 
 const html = registerHtml({
   ColorHeader,
@@ -24,5 +25,8 @@ const home = () => {
     </div>
   `
 }
+
+console.log({attackEffectiveness})
+console.log({defenseEffectiveness})
 
 start("#app", home)
