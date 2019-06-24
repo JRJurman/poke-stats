@@ -1,15 +1,17 @@
-import "babel-polyfill";
+import "babel-polyfill"
+import "./styles.css"
 import { registerHtml, useGlobalState, start } from "tram-one"
 
 import ColorHeader from "./components/ColorHeader"
 import NameInput from "./components/NameInput"
 import PokeImage from "./components/PokeImage"
-import "./styles.css"
+import PokemonTypes from "./components/PokemonTypes"
 
 const html = registerHtml({
   ColorHeader,
   NameInput,
-  PokeImage
+  PokeImage,
+  PokemonTypes
 })
 
 const home = () => {
@@ -18,6 +20,7 @@ const home = () => {
       <ColorHeader />
       <PokeImage />
       <NameInput />
+      <PokemonTypes />
     </div>
   `
 }
