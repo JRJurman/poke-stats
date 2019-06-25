@@ -21,12 +21,12 @@ export default () => {
   const types = pokemon.types.map(({type: {name}}) => name)
   const typeBadges = types.map(type => html`<TypeBadge type=${type}/>`)
   const defenseTypes = getDefenseEffectiveness(types).sort(sortByEffectiveness)
-  const defenseTypeBadges = defenseTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness}/>`)
+  const defenseTypeBadges = defenseTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
   return html`
     <div style="margin-top: 10px">
       ${typeBadges}
-      <div>
-        ${defenseTypeBadges}
+      <div style="margin-top: 50px">
+        <div>${defenseTypeBadges}</div>
       </div>
     </div>
   `

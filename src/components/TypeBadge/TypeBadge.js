@@ -5,12 +5,20 @@ const html = registerHtml()
 
 export default (props) => {
   const displayName = props.short ? props.type.slice(0,3) : props.type;
+  if (props.vertical) {
+    return html`
+    <div classname="vertical-container">
+      <div classname=${`TypeBadgeTop type-${props.type}`}> ${displayName} </div>
+      <div classname=${`TypeBadgeBottom level-${props.effectiveness}`}></div>
+    </div>
+    `
+  }
   if (props.effectiveness) {
     return html`
-    <span>
-      <span classname=${`TypeBadgeLeft type-${props.type}`}> ${displayName} </span>
-      <span classname=${`TypeBadgeRight level-${props.effectiveness}`}>${props.effectiveness}</span>
-    </span>
+    <div classname="horizontal-container">
+      <div classname=${`TypeBadgeLeft type-${props.type}`}> ${displayName} </div>
+      <div classname=${`TypeBadgeRight level-${props.effectiveness}`}></div>
+    </div>
     `
   }
   return html`
