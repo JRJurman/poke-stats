@@ -102,7 +102,7 @@ const attackEffectiveness = {
   }
 }
 
-const buildTypeEffectivenessMap = (types, effectivenessMap, mergeFunction) => {
+const buildTypeEffectivenessMap = (types, effectivenessMap, mergeFunction, defaultMap = {}) => {
   return types.reduce((effectivenessObject, pokemonType) => {
     const {0: noEffect = [], 0.5: notEffective = [], 2: superEffective = []} = effectivenessMap[pokemonType];
     noEffect.forEach(type => {
@@ -115,7 +115,7 @@ const buildTypeEffectivenessMap = (types, effectivenessMap, mergeFunction) => {
       effectivenessObject[type] = mergeFunction(effectivenessObject[type], 2)
     })
     return effectivenessObject;
-  }, {})
+  }, defaultMap)
 }
 
 const effectivenessMapToList = (effectivenessMap) => {
@@ -131,10 +131,19 @@ const effectivenessMapToList = (effectivenessMap) => {
 }
 
 export const getAttackEffectiveness = (types) => {
-  const attackTypeEffectivenessMap = buildTypeEffectivenessMap(types, attackEffectiveness,
-    (a, b) => a === undefined ? b : Math.max(a, b)
+  // we only care about unique types
+  const uniqueTypes = types.filter((type, index) => types.indexOf(type) === index)
+
+  // for our first move, any not defined type should default to the new value
+  const firstAttackTypeEffectivenessMap = buildTypeEffectivenessMap(uniqueTypes.slice(0, 1), attackEffectiveness,
+    (a = -1, b) => Math.max(a, b)
   )
-  return effectivenessMapToList(attackTypeEffectivenessMap)
+
+  // for every move after that, any not defined type is 1 (because we can fall back on the other move)
+  const otherAttackTypeEffectivenessMap = buildTypeEffectivenessMap(uniqueTypes.slice(1), attackEffectiveness,
+    (a = 1, b) => Math.max(a, b)
+  , firstAttackTypeEffectivenessMap)
+  return effectivenessMapToList(otherAttackTypeEffectivenessMap)
 }
 
 const attackToDefense = (defenseObject, attackType) => {
