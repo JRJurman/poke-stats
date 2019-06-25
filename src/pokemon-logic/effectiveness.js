@@ -90,7 +90,7 @@ const attackEffectiveness = {
   },
   [DARK]: {
     2: [PSYCHIC, GHOST],
-    0.5: [FIGHTING, DARK, FAIRY] 
+    0.5: [FIGHTING, DARK, FAIRY]
   },
   [STEEL]: {
     2: [ICE, ROCK, FAIRY],
@@ -105,7 +105,7 @@ const attackEffectiveness = {
 const attackToDefense = (defenseObject, attackType) => {
   const attackEffectivenessForType = attackEffectiveness[attackType]
   const { 0: noEffect=[], 0.5: notEffective=[], 2: superEffective=[] } = attackEffectivenessForType;
-  
+
   // build default keys if they don't already exist in our defense object
   [...noEffect, ...notEffective, ...superEffective].forEach((defType) => {
     defenseObject[defType] = defenseObject[defType] || {0: [], 0.5: [], 2: []}
@@ -132,7 +132,7 @@ export const getDefenseEffectiveness = (types) => {
   const defenseTypeEffectivenessMap = types.reduce((defenseObject, pokemonType) => {
     const {0: noEffect = [], 0.5: notEffective = [], 2: superEffective = []} = defenseEffectiveness[pokemonType];
     noEffect.forEach(type => {
-      defenseObject[type] = 0; 
+      defenseObject[type] = 0;
     })
     notEffective.forEach(type => {
       defenseObject[type] = defenseObject[type] * 0.5
@@ -141,14 +141,14 @@ export const getDefenseEffectiveness = (types) => {
       defenseObject[type] = defenseObject[type] * 2
     })
     return defenseObject;
-  }, allTypes)
+  }, {...allTypes})
 
-  return Object.keys(defenseTypeEffectivenessMap).reduce((typeObjects, type) => 
+  return Object.keys(defenseTypeEffectivenessMap).reduce((typeObjects, type) =>
     [
       {
-        type, 
+        type,
         effectiveness: defenseTypeEffectivenessMap[type]
-      }, 
+      },
       ...typeObjects
     ]
   , []).filter(({effectiveness}) => effectiveness !== 1)
