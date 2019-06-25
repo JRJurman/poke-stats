@@ -102,6 +102,41 @@ const attackEffectiveness = {
   }
 }
 
+const buildTypeEffectivenessMap = (types, effectivenessMap, mergeFunction) => {
+  return types.reduce((effectivenessObject, pokemonType) => {
+    const {0: noEffect = [], 0.5: notEffective = [], 2: superEffective = []} = effectivenessMap[pokemonType];
+    noEffect.forEach(type => {
+      effectivenessObject[type] = mergeFunction(effectivenessObject[type], 0)
+    })
+    notEffective.forEach(type => {
+      effectivenessObject[type] = mergeFunction(effectivenessObject[type], 0.5)
+    })
+    superEffective.forEach(type => {
+      effectivenessObject[type] = mergeFunction(effectivenessObject[type], 2)
+    })
+    return effectivenessObject;
+  }, {})
+}
+
+const effectivenessMapToList = (effectivenessMap) => {
+  return Object.keys(effectivenessMap).reduce((typeObjects, type) =>
+    [
+      {
+        type,
+        effectiveness: effectivenessMap[type]
+      },
+      ...typeObjects
+    ]
+  , []).filter(({effectiveness}) => effectiveness !== 1)
+}
+
+export const getAttackEffectiveness = (types) => {
+  const attackTypeEffectivenessMap = buildTypeEffectivenessMap(types, attackEffectiveness,
+    (a, b) => a === undefined ? b : Math.max(a, b)
+  )
+  return effectivenessMapToList(attackTypeEffectivenessMap)
+}
+
 const attackToDefense = (defenseObject, attackType) => {
   const attackEffectivenessForType = attackEffectiveness[attackType]
   const { 0: noEffect=[], 0.5: notEffective=[], 2: superEffective=[] } = attackEffectivenessForType;
@@ -126,30 +161,9 @@ const attackToDefense = (defenseObject, attackType) => {
 
 const defenseEffectiveness = Object.keys(attackEffectiveness).reduce(attackToDefense, {});
 
-const allTypes = Object.values(ALL_TYPES).reduce((typeObject, type) => ({[type]: 1, ...typeObject}), {});
-
 export const getDefenseEffectiveness = (types) => {
-  const defenseTypeEffectivenessMap = types.reduce((defenseObject, pokemonType) => {
-    const {0: noEffect = [], 0.5: notEffective = [], 2: superEffective = []} = defenseEffectiveness[pokemonType];
-    noEffect.forEach(type => {
-      defenseObject[type] = 0;
-    })
-    notEffective.forEach(type => {
-      defenseObject[type] = defenseObject[type] * 0.5
-    })
-    superEffective.forEach(type => {
-      defenseObject[type] = defenseObject[type] * 2
-    })
-    return defenseObject;
-  }, {...allTypes})
-
-  return Object.keys(defenseTypeEffectivenessMap).reduce((typeObjects, type) =>
-    [
-      {
-        type,
-        effectiveness: defenseTypeEffectivenessMap[type]
-      },
-      ...typeObjects
-    ]
-  , []).filter(({effectiveness}) => effectiveness !== 1)
+  const defenseTypeEffectivenessMap = buildTypeEffectivenessMap(types, defenseEffectiveness,
+    (a, b) => a === undefined ? b : a * b
+  )
+  return effectivenessMapToList(defenseTypeEffectivenessMap)
 }

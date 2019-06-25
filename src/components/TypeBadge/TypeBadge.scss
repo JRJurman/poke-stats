@@ -12,11 +12,10 @@
 }
 
 .horizontal-container {
-  float: left;
   padding: 0px;
   border: none;
   display: inline-flex;
-  
+
   .level-0::after {
     content: '0';
   }
