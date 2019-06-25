@@ -2,5 +2,13 @@
   font-size: 24px;
   border: 0px;
   border-bottom: 2px solid black;
+  margin-bottom: 2px;
   font-weight: bold;
+  outline: none;
+  transition:all 0.1s ease;
+}
+
+.NameInput:focus {
+  border-bottom: 4px solid black;
+  margin-bottom: 0px;
 }
