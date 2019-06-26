@@ -7,8 +7,9 @@ import NameInput from "./components/NameInput"
 import PokeImage from "./components/PokeImage"
 import PokemonTypes from "./components/PokemonTypes"
 import TypeDefenses from "./components/TypeDefenses"
-import MoveSet from "./components/MoveSet";
-import MoveTypeAdvantage from "./components/MoveTypeAdvantage";
+import MoveSet from "./components/MoveSet"
+import MoveTypeAdvantage from "./components/MoveTypeAdvantage"
+import PokemonVarietySelect from "./components/PokemonVarietySelect"
 
 const html = registerHtml({
   ColorHeader,
@@ -17,7 +18,8 @@ const html = registerHtml({
   PokemonTypes,
   MoveSet,
   TypeDefenses,
-  MoveTypeAdvantage
+  MoveTypeAdvantage,
+  PokemonVarietySelect
 })
 
 const home = () => {
@@ -27,6 +29,7 @@ const home = () => {
       <PokeImage />
       <NameInput />
       <PokemonTypes />
+      <PokemonVarietySelect index=${0} />
       <TypeDefenses />
       <MoveSet />
       <MoveTypeAdvantage />
