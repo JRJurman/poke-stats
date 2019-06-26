@@ -7,9 +7,22 @@ const usePokemonName = () => {
   const onUpdatePokemonName = (event) => setPokemonName(event.target.value)
 
   return {
-    0: pokemonName, 1: onUpdatePokemonName,
     pokemonName, onUpdatePokemonName
   }
+}
+
+const usePokemonMap = () => {
+  const [pokemonMap, setPokemonMap] = useGlobalState('pokemon-map', {})
+  const { pokemonName } = usePokemonName()
+  useEffect(async () => {
+    if (pokemonMap[pokemonName]) {
+      return pokemonMap[pokemonName]
+    }
+    setPokemonMap({ ...pokemonMap, [pokemonName]: "LOADING"})
+    const pokemonObject = await PokeAPI.getPokemonByName(pokemonName.toLowerCase())
+    setPokemonMap({ ...pokemonMap, [pokemonName]: pokemonObject})
+  }, [pokemonName])
+  return { pokemonMap }
 }
 
 const usePokemonMove = () => {
@@ -33,12 +46,9 @@ const usePokemonMove = () => {
 export default () => {
   const { pokemonName, onUpdatePokemonName } = usePokemonName()
   const { pokemonMoveset, onUpdatePokemonMove, pokemonMoves } = usePokemonMove()
-  const [pokemon, setPokemon] = useGlobalState('pokemon', null)
+  const { pokemonMap } = usePokemonMap()
 
-  useEffect(async () => {
-    const fetchedPokemon = await PokeAPI.getPokemonByName(pokemonName.toLowerCase())
-    setPokemon(fetchedPokemon)
-  }, [pokemonName])
+  const pokemon = pokemonMap[pokemonName] === "LOADING" ? null : pokemonMap[pokemonName]
 
   return { pokemon, pokemonName, onUpdatePokemonName, pokemonMoveset, onUpdatePokemonMove, pokemonMoves }
 }
