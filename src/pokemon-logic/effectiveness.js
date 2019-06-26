@@ -22,81 +22,99 @@ import * as ALL_TYPES from './types'
 
 const attackEffectiveness = {
   [NORMAL]: {
+    1: [NORMAL, GRASS, GROUND, ICE, WATER, DRAGON, POISON, FLYING, BUG, FAIRY, DARK, PSYCHIC, ELECTRIC, FIGHTING, FIRE],
     0.5: [ROCK, STEEL],
     0: [GHOST],
   },
   [FIRE]: {
     2: [GRASS, ICE, BUG, STEEL],
+    1: [NORMAL, GHOST, GROUND, POISON, FLYING, FAIRY, DARK, PSYCHIC, ELECTRIC, FIGHTING],
     0.5: [FIRE, WATER, ROCK, DRAGON]
   },
   [WATER]: {
     2: [FIRE, GROUND, ROCK],
+    1: [NORMAL, GHOST, ICE, STEEL, POISON, FLYING, BUG, FAIRY, DARK, PSYCHIC, ELECTRIC, FIGHTING],
     0.5: [WATER, GRASS, DRAGON],
   },
   [ELECTRIC]: {
     2: [WATER, FLYING],
+    1: [NORMAL, ROCK, GHOST, ICE, STEEL, POISON, BUG, FAIRY, DARK, PSYCHIC, FIGHTING, FIRE],
     0.5: [ELECTRIC, GRASS, DRAGON],
     0: [GROUND]
   },
   [GRASS]: {
     2: [WATER, GROUND, ROCK],
+    1: [NORMAL, GHOST, ICE, FAIRY, DARK, PSYCHIC, ELECTRIC, FIGHTING],
     0.5: [FIRE, GRASS, POISON, FLYING, BUG, DRAGON, STEEL]
   },
   [ICE]: {
     2: [GRASS, GROUND, FLYING, DRAGON],
+    1: [NORMAL, ROCK, GHOST, POISON, BUG, FAIRY, DARK, PSYCHIC, ELECTRIC, FIGHTING],
     0.5: [FIRE, WATER, ICE, STEEL]
   },
   [FIGHTING]: {
     2: [NORMAL, ICE, ROCK, DARK, STEEL],
+    1: [GRASS, GROUND, WATER, DRAGON, ELECTRIC, FIGHTING, FIRE],
     0.5: [POISON, FLYING, PSYCHIC, BUG, FAIRY],
     0: [GHOST]
   },
   [POISON]: {
     2: [GRASS, FAIRY],
+    1: [NORMAL, ICE, WATER, DRAGON, FLYING, BUG, DARK, PSYCHIC, ELECTRIC, FIGHTING, FIRE],
     0.5: [POISON, GROUND, ROCK, GHOST],
     0: [STEEL]
   },
   [GROUND]: {
+    1: [NORMAL, GHOST, GROUND, ICE, WATER, DRAGON, FAIRY, DARK, PSYCHIC, FIGHTING],
     2: [FIRE, ELECTRIC, POISON, ROCK, STEEL],
     0.5: [GRASS, BUG],
     0: [FLYING]
   },
   [FLYING]: {
+    1: [NORMAL, GHOST, GROUND, ICE, WATER, DRAGON, POISON, FLYING, FAIRY, DARK, PSYCHIC, FIRE],
     2: [GRASS, FIGHTING, BUG],
     0.5: [ELECTRIC, ROCK, STEEL]
   },
   [PSYCHIC]: {
+    1: [NORMAL, ROCK, GHOST, GRASS, GROUND, ICE, WATER, DRAGON, FLYING, BUG, FAIRY, ELECTRIC, FIRE],
     2: [FIGHTING, POISON],
     0.5: [PSYCHIC, STEEL],
     0: [DARK]
   },
   [BUG]: {
+    1: [NORMAL, ROCK, GROUND, ICE, WATER, DRAGON, BUG, ELECTRIC],
     2: [GRASS, PSYCHIC, DARK],
     0.5: [FIRE, FIGHTING, POISON, FLYING, GHOST, STEEL, FAIRY]
   },
   [ROCK]: {
+    1: [NORMAL, ROCK, GHOST, GRASS, WATER, DRAGON, POISON, FAIRY, DARK, PSYCHIC, ELECTRIC],
     2: [FIRE, ICE, FLYING, BUG],
     0.5: [FIGHTING, GROUND, STEEL]
   },
   [GHOST]: {
+    1: [ROCK, GRASS, GROUND, ICE, STEEL, WATER, DRAGON, POISON, FLYING, BUG, FAIRY, ELECTRIC, FIGHTING, FIRE],
     2: [PSYCHIC, GHOST],
     0.5: [DARK],
     0: [NORMAL]
   },
   [DRAGON]: {
+    1: [NORMAL, ROCK, GHOST, GRASS, GROUND, ICE, WATER, POISON, FLYING, BUG, DARK, PSYCHIC, ELECTRIC, FIGHTING, FIRE],
     2: [DRAGON],
     0.5: [STEEL],
     0: [FAIRY]
   },
   [DARK]: {
+    1: [NORMAL, ROCK, GRASS, GROUND, ICE, STEEL, WATER, DRAGON, POISON, FLYING, BUG, ELECTRIC, FIRE],
     2: [PSYCHIC, GHOST],
     0.5: [FIGHTING, DARK, FAIRY]
   },
   [STEEL]: {
+    1: [NORMAL, GHOST, GRASS, GROUND, DRAGON, POISON, FLYING, BUG, DARK, PSYCHIC, FIGHTING],
     2: [ICE, ROCK, FAIRY],
     0.5: [FIRE, WATER, ELECTRIC, STEEL]
   },
   [FAIRY]: {
+    1: [NORMAL, ROCK, GHOST, GRASS, GROUND, ICE, WATER, FLYING, BUG, FAIRY, PSYCHIC, ELECTRIC],
     2: [FIGHTING, DRAGON, DARK],
     0.5: [FIRE, POISON, STEEL]
   }
@@ -104,12 +122,15 @@ const attackEffectiveness = {
 
 const buildTypeEffectivenessMap = (types, effectivenessMap, mergeFunction, defaultMap = {}) => {
   return types.reduce((effectivenessObject, pokemonType) => {
-    const {0: noEffect = [], 0.5: notEffective = [], 2: superEffective = []} = effectivenessMap[pokemonType];
+    const {0: noEffect = [], 0.5: notEffective = [], 1: standardEffect = [], 2: superEffective = []} = effectivenessMap[pokemonType];
     noEffect.forEach(type => {
       effectivenessObject[type] = mergeFunction(effectivenessObject[type], 0)
     })
     notEffective.forEach(type => {
       effectivenessObject[type] = mergeFunction(effectivenessObject[type], 0.5)
+    })
+    standardEffect.forEach(type => {
+      effectivenessObject[type] = mergeFunction(effectivenessObject[type], 1)
     })
     superEffective.forEach(type => {
       effectivenessObject[type] = mergeFunction(effectivenessObject[type], 2)
@@ -131,19 +152,11 @@ const effectivenessMapToList = (effectivenessMap) => {
 }
 
 export const getAttackEffectiveness = (types) => {
-  // we only care about unique types
-  const uniqueTypes = types.filter((type, index) => types.indexOf(type) === index)
-
-  // for our first move, any not defined type should default to the new value
-  const firstAttackTypeEffectivenessMap = buildTypeEffectivenessMap(uniqueTypes.slice(0, 1), attackEffectiveness,
-    (a = -1, b) => Math.max(a, b)
+  const attackTypeEffectivenessMap = buildTypeEffectivenessMap(types, attackEffectiveness,
+    (existingType = -1, newType) => Math.max(existingType, newType)
   )
 
-  // for every move after that, any not defined type is 1 (because we can fall back on the other move)
-  const otherAttackTypeEffectivenessMap = buildTypeEffectivenessMap(uniqueTypes.slice(1), attackEffectiveness,
-    (a = 1, b) => Math.max(a, b)
-  , firstAttackTypeEffectivenessMap)
-  return effectivenessMapToList(otherAttackTypeEffectivenessMap)
+  return effectivenessMapToList(attackTypeEffectivenessMap)
 }
 
 const attackToDefense = (defenseObject, attackType) => {
@@ -172,7 +185,7 @@ const defenseEffectiveness = Object.keys(attackEffectiveness).reduce(attackToDef
 
 export const getDefenseEffectiveness = (types) => {
   const defenseTypeEffectivenessMap = buildTypeEffectivenessMap(types, defenseEffectiveness,
-    (a, b) => a === undefined ? b : a * b
+    (existingType, newType) => existingType === undefined ? newType : existingType * newType
   )
   return effectivenessMapToList(defenseTypeEffectivenessMap)
 }
