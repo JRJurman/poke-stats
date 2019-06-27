@@ -9,10 +9,15 @@
   color: white;
   font-weight: bold;
   text-shadow: 2px 2px 5px black;
-  background: black;
   box-shadow: 2px 2px 0px black;
   cursor: pointer;
   transition:all 0.1s ease;
+}
+
+.type- {
+  color: black;
+  background: white;
+  text-shadow: none;
 }
 
 .MoveDropdown:hover {

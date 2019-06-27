@@ -23,10 +23,10 @@ export default ({index}) => {
   return html`
     <select 
       classname="MoveDropdown type-${moveType}" 
-      value=${moveName}
+      value=${moveName || ""}
       onchange=${onUpdatePokemonMove(index)}
     >
-      <option value=${null}></option>
+      <option disabled value="" selected >Move ${parseInt(index) + 1}</option>
       ${options}
     </select>
   `
