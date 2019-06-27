@@ -4,10 +4,10 @@ import usePokemon from '../../hooks/usePokemon'
 
 const html = registerHtml()
 
-export default ({index}) => {
+export default () => {
   const {pokemon, pokemonName, pokemonVariation, onUpdatePokemonVariation, pokemonVariants} = usePokemon()
 
-  if (!pokemon || pokemonVariants[pokemonName].length < 2) {
+  if (!pokemon || !pokemonVariants || pokemonVariants[pokemonName] === "LOADING" || pokemonVariants[pokemonName].length < 2) {
     return null
   }
 
@@ -20,8 +20,8 @@ export default ({index}) => {
   return html`
     <select 
       classname="PokemonVarietySelect" 
-      value=${pokemonVariation[index]}
-      onchange=${onUpdatePokemonVariation(index)}
+      value=${pokemonVariation}
+      onchange=${onUpdatePokemonVariation}
     >
       ${options}
     </select>

@@ -29,7 +29,7 @@ const home = () => {
       <PokeImage />
       <NameInput />
       <PokemonTypes />
-      <PokemonVarietySelect index=${0} />
+      <PokemonVarietySelect />
       <TypeDefenses />
       <MoveSet />
       <MoveTypeAdvantage />

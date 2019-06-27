@@ -11,6 +11,7 @@ const usePokemonName = () => {
   }
 }
 
+// get all the pokemon variations
 const usePokemonVariants = () => {
   const [pokemonVariants, setPokemonVariants] = useGlobalState('pokemon-variants', {})
   const { pokemonName } = usePokemonName()
@@ -28,21 +29,18 @@ const usePokemonVariants = () => {
   return { pokemonVariants }
 }
 
+// get specific pokemon variations
 const usePokemonVariation = () => {
-  const [pokemonVariation, setPokemonVariation] = useGlobalState('pokemon-variation', {})
+  const [pokemonVariation, setPokemonVariation] = useGlobalState('pokemon-variation', null)
   const { pokemonName } = usePokemonName()
-  const onUpdatePokemonVariation = (index) => (event) => {
+  const onUpdatePokemonVariation = (event) => {
     const varient = event.target.value;
-    setPokemonVariation({
-      ...pokemonVariation, [index]: varient
-    })
+    setPokemonVariation(varient)
   }
 
   useEffect(() => {
-    if (pokemonVariation[0]) {
-      setPokemonVariation({
-        ...pokemonVariation, 0: null // instead of 0, reset index of pokemonName when it's indexed
-      })
+    if (pokemonVariation) {
+      setPokemonVariation(null)
     }
   }, [pokemonName])
 
@@ -67,17 +65,13 @@ const usePokemonMap = () => {
   }, [pokemonName])
 
   useEffect(async () => {
-    // if (pokemonMap[pokemonName]) {
-    //   return pokemonMap[pokemonName]
-    // }
-    // setPokemonMap({ ...pokemonMap, [pokemonName]: "LOADING"})
-    if (!pokemonVariation[0]) { 
+    if (!pokemonVariation) { 
       return null
     }
-    const pokemonVariationObject = pokemonVariants[pokemonName].find(({pokemon: {name}}) => name === pokemonVariation[0])
+    const pokemonVariationObject = pokemonVariants[pokemonName].find(({pokemon: {name}}) => name === pokemonVariation)
     const pokemonObject = await PokeAPI.getPokemonByName(pokemonVariationObject.pokemon.name)
     setPokemonMap({ ...pokemonMap, [pokemonName]: pokemonObject})  
-  }, [pokemonName, pokemonVariation[0]])
+  }, [pokemonName, pokemonVariation])
 
   return { pokemonMap }
 }
