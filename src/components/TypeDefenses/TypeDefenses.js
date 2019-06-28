@@ -1,6 +1,5 @@
 import { registerHtml, useGlobalState } from "tram-one"
 import TypeBadge from "../TypeBadge";
-import usePokemon from "../../hooks/usePokemon"
 import { getDefenseEffectiveness } from "../../pokemon-logic/effectiveness"
 
 const html = registerHtml({
@@ -11,9 +10,7 @@ const sortByEffectiveness = (typeA, typeB) => {
   return typeA.effectiveness - typeB.effectiveness
 }
 
-export default () => {
-  const { pokemon } = usePokemon()
-
+export default ({ pokemon }) => {
   if (!pokemon) {
     return ''
   }

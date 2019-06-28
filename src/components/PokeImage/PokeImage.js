@@ -1,15 +1,12 @@
 import "./PokeImage.scss"
 import { registerHtml } from "tram-one"
-import PokeBallImage from "./PokeBallImage"
-import usePokemon from '../../hooks/usePokemon'
+import PokeBallImage from "../PokeBallImage"
 
 const html = registerHtml({
   PokeBallImage
 })
 
-export default () => {
-  const { pokemon } = usePokemon()
-
+export default ({pokemon}) => {
   if (!pokemon) {
     return html`<PokeBallImage />`
   }
