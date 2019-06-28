@@ -1,13 +1,10 @@
 import "./NameInput.scss"
 import { registerHtml } from "tram-one"
-import usePokemon from '../../hooks/usePokemon'
 
 const html = registerHtml()
 
-export default () => {
-  const {pokemonName, onUpdatePokemonName} = usePokemon()
-
+export default ({ value, onUpdate }) => {
   return html`
-    <input classname="NameInput" value=${pokemonName} onchange=${onUpdatePokemonName} placeholder="Pokemon Name" />
+    <input classname="NameInput" value=${value} onchange=${onUpdate} placeholder="Pokemon Name" />
   `
 }

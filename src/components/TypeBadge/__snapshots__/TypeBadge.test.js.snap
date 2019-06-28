@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeBadge should match snapshot with type 1`] = `"<span class=\\"TypeBadge type-FIRE\\">FIRE</span>"`;
+
+exports[`TypeBadge should match snapshot with type and effectiveness 1`] = `"<div class=\\"horizontal-container\\"><div class=\\"TypeBadgeLeft type-FIRE\\">FIRE</div><div class=\\"TypeBadgeRight level-2\\"></div></div>"`;
+
+exports[`TypeBadge should match snapshot with type and effectiveness in vertical 1`] = `"<div class=\\"vertical-container\\"><div class=\\"TypeBadgeTop type-FIRE\\">FIRE</div><div class=\\"TypeBadgeBottom level-2\\"></div></div>"`;
+
+exports[`TypeBadge should match snapshot with type in shorthand 1`] = `"<span class=\\"TypeBadge type-FIRE\\">FIR</span>"`;

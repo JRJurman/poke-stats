@@ -3,8 +3,12 @@ import Pokedex from 'pokedex-promise-v2'
 const PokeAPI = new Pokedex()
 
 const usePokemonName = () => {
+  const { clearMoves } = usePokemonMove()
   const [pokemonName, setPokemonName] = useGlobalState('pokemon-name', '')
-  const onUpdatePokemonName = (event) => setPokemonName(event.target.value)
+  const onUpdatePokemonName = (event) => {
+    setPokemonName(event.target.value)
+    clearMoves()
+  }
 
   return {
     pokemonName, onUpdatePokemonName
@@ -40,7 +44,11 @@ const usePokemonMove = () => {
     }
   }
 
-  return { pokemonMoveset, onUpdatePokemonMove, pokemonMoves }
+  const clearMoves = () => {
+    setMoveDetails({})
+  }
+
+  return { pokemonMoveset, onUpdatePokemonMove, pokemonMoves, clearMoves }
 }
 
 export default () => {

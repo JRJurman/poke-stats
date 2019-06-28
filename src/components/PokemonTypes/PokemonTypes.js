@@ -1,13 +1,11 @@
 import { registerHtml } from "tram-one"
 import TypeBadge from "../TypeBadge";
-import usePokemon from "../../hooks/usePokemon"
 
 const html = registerHtml({
   TypeBadge
 })
 
-export default () => {
-  const { pokemon } = usePokemon()
+export default ({ pokemon }) => {
 
   if (!pokemon) {
     return ''
