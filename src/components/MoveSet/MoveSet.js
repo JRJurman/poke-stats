@@ -20,7 +20,7 @@ export default ({ pokemon, pokemonMoveset, pokemonMoves, onUpdatePokemonMove }) 
   }));
 
   return html`
-    <div className="MoveSet">
+    <div class="MoveSet">
       Move Set
       <hr />
       <div>

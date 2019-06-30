@@ -16,7 +16,7 @@ export default ({moveOptions, moveName, moveType, onUpdatePokemonMove}) => {
 
   return html`
     <select
-      classname="MoveDropdown type-${moveType}"
+      class="MoveDropdown type-${moveType}"
       value=${moveName || ""}
       onchange=${onUpdatePokemonMove}
     >

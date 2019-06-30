@@ -1,10 +1,9 @@
-import { useGlobalState, useEffect } from "tram-one"
+import { useState, useGlobalState, useEffect } from "tram-one"
 import Pokedex from 'pokedex-promise-v2'
 const PokeAPI = new Pokedex()
 
-const usePokemonName = () => {
-  const { clearMoves } = usePokemonMove()
-  const [pokemonName, setPokemonName] = useGlobalState('pokemon-name', '')
+const usePokemonName = ({clearMoves}) => {
+  const [pokemonName, setPokemonName] = useState('')
   const onUpdatePokemonName = (event) => {
     setPokemonName(event.target.value)
     clearMoves()
@@ -15,9 +14,8 @@ const usePokemonName = () => {
   }
 }
 
-const usePokemonMap = () => {
-  const [pokemonMap, setPokemonMap] = useGlobalState('pokemon-map', {})
-  const { pokemonName } = usePokemonName()
+const usePokemonMap = ({pokemonName}) => {
+  const [pokemonMap, setPokemonMap] = useState({})
   useEffect(async () => {
     if (pokemonMap[pokemonName]) {
       return pokemonMap[pokemonName]
@@ -30,8 +28,10 @@ const usePokemonMap = () => {
 }
 
 const usePokemonMove = () => {
-  const [pokemonMoveset, setPokemonMove] = useGlobalState('pokemon-moveset', [])
-  const [pokemonMoves, setMoveDetails] = useGlobalState('pokemon-moves', {})
+  // const [pokemonMoveset, setPokemonMove] = useGlobalState('pokemon-moveset', [])
+  // const [pokemonMoves, setMoveDetails] = useGlobalState('pokemon-moves', {})
+  const [pokemonMoveset, setPokemonMove] = useState([])
+  const [pokemonMoves, setMoveDetails] = useState({})
   const onUpdatePokemonMove = (index) => async (event) => {
     const moveName = event.target.value;
     setPokemonMove({
@@ -52,9 +52,9 @@ const usePokemonMove = () => {
 }
 
 export default () => {
-  const { pokemonName, onUpdatePokemonName } = usePokemonName()
-  const { pokemonMoveset, onUpdatePokemonMove, pokemonMoves } = usePokemonMove()
-  const { pokemonMap } = usePokemonMap()
+  const { pokemonMoveset, onUpdatePokemonMove, pokemonMoves, clearMoves } = usePokemonMove()
+  const { pokemonName, onUpdatePokemonName } = usePokemonName({clearMoves})
+  const { pokemonMap } = usePokemonMap({pokemonName})
 
   const pokemon = pokemonMap[pokemonName] === "LOADING" ? null : pokemonMap[pokemonName]
 

@@ -12,6 +12,6 @@ export default ({pokemon}) => {
   }
 
   return html`
-    <img classname="PokeImage" src=${pokemon && pokemon.sprites.front_default} />
+    <img class="PokeImage" src=${pokemon && pokemon.sprites.front_default} />
   `
 }

@@ -1,6 +1,5 @@
 import { registerHtml } from "tram-one"
 import TypeBadge from "../TypeBadge";
-import usePokemon from "../../hooks/usePokemon"
 import { getAttackEffectiveness } from "../../pokemon-logic/effectiveness"
 
 const html = registerHtml({
@@ -11,11 +10,9 @@ const sortByEffectiveness = (typeA, typeB) => {
   return typeB.effectiveness - typeA.effectiveness
 }
 
-export default () => {
-  const { pokemon, pokemonMoveset, pokemonMoves } = usePokemon()
-
-  if (!pokemon) {
-    return ''
+export default ({ pokemonMoveset, pokemonMoves }) => {
+  if (!pokemonMoveset) {
+    return
   }
 
   const types = Object.values(pokemonMoveset)
@@ -32,7 +29,7 @@ export default () => {
   const attackTypeBadges = attackTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
 
   return html`
-    <div style="margin-top: 50px">
+    <div class="MoveTypeAdvantage" style="margin-top: 50px">
       Move Type Advantage
       <hr />
       <div>${attackTypeBadges}</div>
