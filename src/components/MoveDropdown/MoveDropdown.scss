@@ -21,7 +21,7 @@
   text-shadow: none;
 }
 
-.MoveDropdown:hover {
+.MoveDropdown:hover, .MoveDropdown:focus {
   box-shadow: 4px 4px 0px black;
 }
 

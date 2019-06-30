@@ -2,9 +2,11 @@ import './TeamStats.scss';
 
 import { registerHtml } from "tram-one"
 import MoveTypeAdvantage from '../MoveTypeAdvantage'
+import TypeDefenses from '../TypeDefenses'
 
 const html = registerHtml({
-  MoveTypeAdvantage
+  MoveTypeAdvantage,
+  TypeDefenses
 })
 
 export default ({ pokemon }) => {
@@ -22,9 +24,12 @@ export default ({ pokemon }) => {
     }
   }, {pokemonMoveset: [], pokemonMoves: {}})
 
+  const pokemonObjects = pokemon.map(pokemon => pokemon.pokemon)
+
   return html`
     <div class="TeamStats">
       <div class="Label">Team Stats</div>
+      <TypeDefenses pokemon=${pokemonObjects} />
       <MoveTypeAdvantage ${pokemonMoves} />
     </div>
   `

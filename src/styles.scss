@@ -1,3 +1,13 @@
+.PokemonContainers {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Pokemon {
+  flex: 1;
+  min-width: 25em;
+}
+
 body {
   font-family: sans-serif;
   font-weight: bold;

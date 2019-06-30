@@ -11,11 +11,19 @@ const sortByEffectiveness = (typeA, typeB) => {
 }
 
 export default ({ pokemon }) => {
-  if (!pokemon) {
+  if (!pokemon || !pokemon[0]) {
     return ''
   }
 
-  const types = pokemon.types.map(({type: {name}}) => name)
+  const pokemonObjects = pokemon.filter(pokemonObject => !!pokemonObject)
+
+  const types = pokemonObjects.reduce((pokemonTypes, pokemonObject) => {
+    return [
+      ...pokemonTypes,
+      ...(pokemonObject.types.map(({type: {name}}) => name))
+    ]
+  }, [])
+
   const defenseTypes = getDefenseEffectiveness(types).sort(sortByEffectiveness)
   const defenseTypeBadges = defenseTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
   return html`

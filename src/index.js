@@ -1,5 +1,5 @@
 import "babel-polyfill"
-import "./styles.css"
+import "./styles.scss"
 import { registerHtml, start } from "tram-one"
 
 import ColorHeader from "./components/ColorHeader"
@@ -24,15 +24,17 @@ const home = () => {
   ]
 
   return html`
-    <div>
+    <div class="Page">
       <ColorHeader />
-      <Pokemon pokemon=${pokemon[0]} />
-      <Pokemon pokemon=${pokemon[1]} />
-      <Pokemon pokemon=${pokemon[2]} />
-      <Pokemon pokemon=${pokemon[3]} />
-      <Pokemon pokemon=${pokemon[4]} />
-      <Pokemon pokemon=${pokemon[5]} />
       <TeamStats pokemon=${pokemon} />
+      <div class="PokemonContainers">
+        <Pokemon pokemon=${pokemon[0]} />
+        <Pokemon pokemon=${pokemon[1]} />
+        <Pokemon pokemon=${pokemon[2]} />
+        <Pokemon pokemon=${pokemon[3]} />
+        <Pokemon pokemon=${pokemon[4]} />
+        <Pokemon pokemon=${pokemon[5]} />
+      </div>
     </div>
   `
 }
