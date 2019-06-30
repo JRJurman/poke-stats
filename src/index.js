@@ -4,13 +4,13 @@ import { registerHtml, start } from "tram-one"
 
 import ColorHeader from "./components/ColorHeader"
 import Pokemon from "./components/Pokemon";
-import MoveTypeAdvantage from './components/MoveTypeAdvantage'
+import TeamStats from './components/TeamStats'
 import usePokemon from "./hooks/usePokemon";
 
 const html = registerHtml({
   ColorHeader,
   Pokemon,
-  MoveTypeAdvantage
+  TeamStats
 })
 
 const home = () => {
@@ -23,19 +23,6 @@ const home = () => {
     usePokemon()
   ]
 
-  const pokemonMoves = pokemon.reduce((allMovesObject, pokemon) => {
-    return {
-      pokemonMoveset: [
-        ...allMovesObject.pokemonMoveset,
-        ...Object.values(pokemon.pokemonMoveset)
-      ],
-      pokemonMoves: {
-        ...allMovesObject.pokemonMoves,
-        ...pokemon.pokemonMoves
-      }
-    }
-  }, {pokemonMoveset: [], pokemonMoves: {}})
-
   return html`
     <div>
       <ColorHeader />
@@ -45,9 +32,7 @@ const home = () => {
       <Pokemon pokemon=${pokemon[3]} />
       <Pokemon pokemon=${pokemon[4]} />
       <Pokemon pokemon=${pokemon[5]} />
-      <div class="Foo">
-        <MoveTypeAdvantage ${pokemonMoves} />
-      </div>
+      <TeamStats pokemon=${pokemon} />
     </div>
   `
 }

@@ -15,7 +15,7 @@ export default ({ pokemon }) => {
   const typeBadges = types.map(type => html`<TypeBadge type=${type}/>`)
 
   return html`
-    <div style="margin-top: 10px">
+    <div class="PokemonTypes">
       ${typeBadges}
     </div>
   `

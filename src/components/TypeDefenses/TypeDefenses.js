@@ -19,7 +19,7 @@ export default ({ pokemon }) => {
   const defenseTypes = getDefenseEffectiveness(types).sort(sortByEffectiveness)
   const defenseTypeBadges = defenseTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
   return html`
-    <div style="margin-top: 50px">
+    <div class="TypeDefenses">
       Type Defenses
       <hr />
       <div>${defenseTypeBadges}</div>

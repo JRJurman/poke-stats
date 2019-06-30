@@ -7,7 +7,7 @@ export default (props) => {
   const displayName = props.short ? props.type.slice(0,3) : props.type;
   if (props.vertical) {
     return html`
-    <div class="vertical-container">
+    <div class="TypeBadge vertical-container">
       <div class=${`TypeBadgeTop type-${props.type}`}> ${displayName} </div>
       <div class=${`TypeBadgeBottom level-${props.effectiveness}`}></div>
     </div>
@@ -15,7 +15,7 @@ export default (props) => {
   }
   if (props.effectiveness) {
     return html`
-    <div class="horizontal-container">
+    <div class="TypeBadge horizontal-container">
       <div class=${`TypeBadgeLeft type-${props.type}`}> ${displayName} </div>
       <div class=${`TypeBadgeRight level-${props.effectiveness}`}></div>
     </div>

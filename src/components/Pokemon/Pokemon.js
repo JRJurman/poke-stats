@@ -6,7 +6,6 @@ import PokemonTypes from "../PokemonTypes"
 import TypeDefenses from "../TypeDefenses"
 import MoveSet from "../MoveSet";
 import MoveTypeAdvantage from "../MoveTypeAdvantage";
-import usePokemon from "../../hooks/usePokemon";
 import './Pokemon.scss';
 
 const html = registerHtml({
@@ -23,10 +22,13 @@ export default (props) => {
 
   return html`
     <div class="Pokemon">
-      <ColorHeader />
-      <PokeImage pokemon=${pokemon} />
-      <NameInput value=${pokemonName} onUpdate=${onUpdatePokemonName} />
-      <PokemonTypes pokemon=${pokemon} />
+      <div class="Header">
+        <PokeImage pokemon=${pokemon} />
+        <div>
+          <NameInput value=${pokemonName} onUpdate=${onUpdatePokemonName} />
+          <PokemonTypes pokemon=${pokemon} />
+        </div>
+      </div>
       <TypeDefenses pokemon=${pokemon} />
       <MoveSet pokemon=${pokemon} pokemonMoveset=${pokemonMoveset} pokemonMoves=${pokemonMoves} onUpdatePokemonMove=${onUpdatePokemonMove} />
       <MoveTypeAdvantage pokemonMoveset=${pokemonMoveset} pokemonMoves=${pokemonMoves} />

@@ -1,10 +1,10 @@
-.Pokemon {
+.TeamStats {
   border: solid 4px black;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 5px;
 }
 
-.Pokemon > .Header {
-  display: flex;
+.TeamStats > .Label {
+  font-size: 24px;
 }

@@ -29,7 +29,7 @@ export default ({ pokemonMoveset, pokemonMoves }) => {
   const attackTypeBadges = attackTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
 
   return html`
-    <div class="MoveTypeAdvantage" style="margin-top: 50px">
+    <div class="MoveTypeAdvantage">
       Move Type Advantage
       <hr />
       <div>${attackTypeBadges}</div>
