@@ -22,6 +22,8 @@ export default (props) => {
     `
   }
   return html`
-    <span class=${`TypeBadge type-${props.type}`}>${displayName}</span>
+  <div class="TypeBadge normal-container">
+    <div class=${`TypeBadgeSingle type-${props.type}`}>${displayName}</div>
+  </div>
   `
 }

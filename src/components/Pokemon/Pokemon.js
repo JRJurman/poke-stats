@@ -29,7 +29,7 @@ export default (props) => {
           <PokemonTypes pokemon=${pokemon} />
         </div>
       </div>
-      <TypeDefenses pokemon=${[pokemon]} />
+      <TypeDefenses showEffectiveness=${true} pokemon=${[pokemon]} />
       <MoveSet pokemon=${pokemon} pokemonMoveset=${pokemonMoveset} pokemonMoves=${pokemonMoves} onUpdatePokemonMove=${onUpdatePokemonMove} />
       <MoveTypeAdvantage pokemonMoveset=${pokemonMoveset} pokemonMoves=${pokemonMoves} />
     </div>

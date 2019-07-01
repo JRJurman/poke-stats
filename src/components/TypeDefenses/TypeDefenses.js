@@ -1,6 +1,7 @@
-import { registerHtml, useGlobalState } from "tram-one"
+import { registerHtml } from "tram-one"
 import TypeBadge from "../TypeBadge";
 import { getDefenseEffectiveness } from "../../pokemon-logic/effectiveness"
+import "./TypeDefenses.scss"
 
 const html = registerHtml({
   TypeBadge
@@ -10,7 +11,12 @@ const sortByEffectiveness = (typeA, typeB) => {
   return typeA.effectiveness - typeB.effectiveness
 }
 
-export default ({ pokemon }) => {
+const filterWeak = ({effectiveness}) => effectiveness <= 1
+const filterResistant = ({effectiveness}) => effectiveness >= 1
+
+const renderBadge = ({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${showEffectiveness && effectiveness} />`
+
+export default ({ pokemon, showEffectiveness }) => {
   if (!pokemon || !pokemon[0]) {
     return ''
   }
@@ -25,12 +31,23 @@ export default ({ pokemon }) => {
   }, [])
 
   const defenseTypes = getDefenseEffectiveness(types).sort(sortByEffectiveness)
-  const defenseTypeBadges = defenseTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
+  const weakToTypes = defenseTypes.filter(filterWeak).map(
+    ({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${showEffectiveness && effectiveness} />`
+  )
+  const resistantToTypes = defenseTypes.filter(filterResistant).map(
+    ({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${showEffectiveness && effectiveness} />`
+  )
+
   return html`
     <div class="TypeDefenses">
-      Type Defenses
-      <hr />
-      <div>${defenseTypeBadges}</div>
+      <div class="TypeResistant">
+        Resistant To
+        <div class="Badges">${weakToTypes}</div>
+      </div>
+      <div class="TypeWeakness">
+        Weak To
+        <div class="Badges">${resistantToTypes}</div>
+      </div>
     </div>
   `
 }

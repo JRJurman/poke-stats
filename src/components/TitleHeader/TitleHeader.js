@@ -4,8 +4,9 @@ const html = registerHtml()
 
 export default () => {
   return html`
-    <h1 class="TitleHeader">
-      Team-Dex
-    </h1>
+    <div class="TitleHeader">
+      <div class="TitleBar" />
+      <div class="TitleCircle" />
+    </div>
   `
 }
