@@ -1,0 +1,23 @@
+.VariantDropdown {
+  border-radius: 8px;
+  margin: 4px;
+  margin-top: 12px;
+  padding: 2px;
+  text-transform: capitalize;
+  border: 2px solid rgb(0, 0, 0);
+  font-family: monospace;
+  outline: none;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px black;
+  box-shadow: 2px 2px 0px black;
+  cursor: pointer;
+  transition:all 0.1s ease;
+
+  color: black;
+  background: white;
+  text-shadow: none;
+}
+
+.VariantDropdown:hover, .VariantDropdown:focus {
+  box-shadow: 4px 4px 0px black;
+}
