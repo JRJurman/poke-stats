@@ -4,9 +4,9 @@ import NameInput from "../NameInput"
 import PokeImage from "../PokeImage"
 import PokemonTypes from "../PokemonTypes"
 import TypeDefenses from "../TypeDefenses"
-import MoveSet from "../MoveSet";
-import MoveTypeAdvantage from "../MoveTypeAdvantage";
-import './Pokemon.scss';
+import MoveSet from "../MoveSet"
+import MoveTypeAdvantage from "../MoveTypeAdvantage"
+import './Pokemon.scss'
 
 const html = registerHtml({
   NameInput,
@@ -18,7 +18,7 @@ const html = registerHtml({
 })
 
 export default (props) => {
-  const { pokemon, pokemonName, onUpdatePokemonName, pokemonMoveset, pokemonMoves, onUpdatePokemonMove } = props.pokemon;
+  const { pokemon, pokemonName, onUpdatePokemonName, pokemonMoveset, pokemonMoves, onUpdatePokemonMove } = props.pokemon
 
   return html`
     <div class="Pokemon">

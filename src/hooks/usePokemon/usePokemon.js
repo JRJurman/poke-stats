@@ -1,4 +1,4 @@
-import { useState, useGlobalState, useEffect } from "tram-one"
+import { useState, useEffect } from "tram-one"
 import Pokedex from 'pokedex-promise-v2'
 const PokeAPI = new Pokedex()
 
@@ -28,8 +28,6 @@ const usePokemonMap = ({pokemonName}) => {
 }
 
 const usePokemonMove = () => {
-  // const [pokemonMoveset, setPokemonMove] = useGlobalState('pokemon-moveset', [])
-  // const [pokemonMoves, setMoveDetails] = useGlobalState('pokemon-moves', {})
   const [pokemonMoveset, setPokemonMove] = useState([])
   const [pokemonMoves, setMoveDetails] = useState({})
   const onUpdatePokemonMove = (index) => async (event) => {

@@ -1,39 +1,48 @@
 import "babel-polyfill"
-import "./styles.scss"
 import { registerHtml, start } from "tram-one"
 
 import TitleHeader from "./components/TitleHeader"
 import Pokemon from "./components/Pokemon";
-import TeamStats from './components/TeamStats'
 import usePokemon from "./hooks/usePokemon";
+import "./styles.scss"
 
 const html = registerHtml({
   TitleHeader,
-  Pokemon,
-  TeamStats
+  Pokemon
 })
 
 const home = () => {
-  const pokemon = [
-    usePokemon(),
-    usePokemon(),
-    usePokemon(),
-    usePokemon(),
-    usePokemon(),
-    usePokemon()
-  ]
+  const maxNumberOfPokemon = 20
+
+  const pokemonObjects = [...Array(maxNumberOfPokemon)]
+    .map(() => usePokemon())
+    .filter((pokemonObject, index, pokemonObjects) => {
+      const current = pokemonObject
+      const currentHasName = current.pokemonName !== ''
+      if (currentHasName) return true
+
+      const previous = pokemonObjects[index - 1]
+      if (!previous) return true
+      const previousHasName = previous.pokemonName !== ''
+
+      if (!currentHasName && !previousHasName) return false
+
+      const next = pokemonObjects[index + 1]
+      if (!next) return true
+      const nextHasName = next.pokemonName !== ''
+
+      if (!currentHasName && nextHasName) return false
+
+      return true
+    })
+
+  const pokemonComponents = pokemonObjects.map(pokemonObject => Pokemon({ pokemon: pokemonObject }))
 
   return html`
     <div class="Page">
       <TitleHeader />
-      <TeamStats pokemon=${pokemon} />
       <div class="PokemonContainers">
-        <Pokemon pokemon=${pokemon[0]} />
-        <Pokemon pokemon=${pokemon[1]} />
-        <Pokemon pokemon=${pokemon[2]} />
-        <Pokemon pokemon=${pokemon[3]} />
-        <Pokemon pokemon=${pokemon[4]} />
-        <Pokemon pokemon=${pokemon[5]} />
+        ${pokemonComponents}
       </div>
     </div>
   `
