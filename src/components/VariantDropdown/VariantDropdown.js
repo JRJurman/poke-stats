@@ -8,10 +8,12 @@ export default ({ pokemonVariant, onUpdateVariant, pokemonVarieties=[] }) => {
     return null
   }
 
-  const defaultOption = pokemonVarieties.find(({is_default}) => is_default)
-
+  const defaultOption = pokemonVarieties.find(({is_default}) => is_default).pokemon.name
+  const isVariantInVarieties = pokemonVarieties.some(({pokemon: {name}}) => name === pokemonVariant)
+  const selected = isVariantInVarieties ? pokemonVariant : defaultOption
+  
   const options = pokemonVarieties.map((({pokemon: {name}}) => html`
-    <option value=${name}>
+    <option value=${name} ${selected === name ? 'selected' : ''}>
       ${name.replace('-', ' ')}
     </option>
   `))
@@ -19,7 +21,7 @@ export default ({ pokemonVariant, onUpdateVariant, pokemonVarieties=[] }) => {
   return html`
     <select
       class="VariantDropdown"
-      value=${pokemonVariant || defaultOption}
+      value=${selected}
       onchange=${onUpdateVariant}
     >
       ${options}

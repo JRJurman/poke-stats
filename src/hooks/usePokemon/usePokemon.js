@@ -14,9 +14,8 @@ const usePokemonName = ({clearMoves}) => {
   }
 }
 
-const usePokemonMap = ({pokemonVarieties, pokemonVariant}) => {
-  const [pokemonMap, setPokemonMap] = useState(null)
-  console.log(pokemonVarieties)
+const usePokemonData = ({pokemonVarieties, pokemonVariant}) => {
+  const [pokemonData, setPokemonMap] = useState(null)
   useEffect(async () => {
     const isVariantInVarities = pokemonVarieties.some(({pokemon: {name}}) => name === pokemonVariant)
     if (pokemonVariant && isVariantInVarities) {
@@ -31,7 +30,7 @@ const usePokemonMap = ({pokemonVarieties, pokemonVariant}) => {
     pokemonVariant, 
     pokemonVarieties[0] ? pokemonVarieties[0].pokemon.name : ''
   ])
-  return { pokemonMap }
+  return { pokemonData }
 }
 
 const usePokemonMove = () => {
@@ -69,31 +68,33 @@ const usePokemonVarieties = ({pokemonName}) => {
   return { pokemonVarieties };
 }
 
-const usePokemonVariant = ({pokemonVarieties}) => {
+const usePokemonVariant = ({pokemonVarieties, pokemonName}) => {
   const [pokemonVariant, setPokemonVariant] = useState('')
   const onUpdateVariant = ({target: {value}}) => {
     const pokemonVariantChoice = pokemonVarieties.find(({pokemon: {name}}) => name === value)
     setPokemonVariant(pokemonVariantChoice.pokemon.name)
   }
-  const clearVariant = () => {
-    setPokemonVariant('')
-  }
-  return { pokemonVariant, onUpdateVariant, clearVariant }
+  
+  useEffect(() => {
+    if (pokemonName && pokemonVariant) {
+      setPokemonVariant('')
+    }
+  }, [pokemonName])
+
+  return { pokemonVariant, onUpdateVariant }
 }
 
 export default () => {
   const { pokemonMoveset, onUpdatePokemonMove, pokemonMoves, clearMoves } = usePokemonMove()
   const { pokemonName, onUpdatePokemonName } = usePokemonName({clearMoves})
   const { pokemonVarieties } = usePokemonVarieties({pokemonName})
-  const { pokemonVariant, onUpdateVariant } = usePokemonVariant({pokemonVarieties})
-  const { pokemonMap } = usePokemonMap({pokemonVarieties, pokemonVariant})
-
-  const pokemon = pokemonMap
+  const { pokemonVariant, onUpdateVariant } = usePokemonVariant({pokemonVarieties, pokemonName})
+  const { pokemonData } = usePokemonData({pokemonVarieties, pokemonVariant})
 
   return { 
-    pokemon, 
+    pokemon: pokemonData, 
     pokemonName, onUpdatePokemonName, 
     pokemonMoveset, onUpdatePokemonMove, pokemonMoves, 
-    pokemonVariant, pokemonVarieties, onUpdateVariant 
+    pokemonVariant, pokemonVarieties, onUpdateVariant
   }
 }
