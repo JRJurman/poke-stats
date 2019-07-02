@@ -4,10 +4,10 @@ import NameInput from "../NameInput"
 import PokeImage from "../PokeImage"
 import PokemonTypes from "../PokemonTypes"
 import TypeDefenses from "../TypeDefenses"
-import MoveSet from "../MoveSet";
-import MoveTypeAdvantage from "../MoveTypeAdvantage";
-import VariantDropdown from "../VariantDropdown";
-import './Pokemon.scss';
+import MoveSet from "../MoveSet"
+import MoveTypeAdvantage from "../MoveTypeAdvantage"
+import VariantDropdown from "../VariantDropdown"
+import './Pokemon.scss'
 
 const html = registerHtml({
   NameInput,
@@ -25,7 +25,7 @@ export default (props) => {
     pokemonName, onUpdatePokemonName, 
     pokemonMoveset, pokemonMoves, onUpdatePokemonMove, 
     pokemonVariant, onUpdateVariant, pokemonVarieties 
-  } = props.pokemon;
+  } = props.pokemon
 
   return html`
     <div class="Pokemon">
@@ -41,7 +41,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <TypeDefenses pokemon=${[pokemon]} />
+      <TypeDefenses showEffectiveness=${true} pokemon=${[pokemon]} />
       <MoveSet pokemon=${pokemon} pokemonMoveset=${pokemonMoveset} pokemonMoves=${pokemonMoves} onUpdatePokemonMove=${onUpdatePokemonMove} />
       <MoveTypeAdvantage pokemonMoveset=${pokemonMoveset} pokemonMoves=${pokemonMoves} />
     </div>

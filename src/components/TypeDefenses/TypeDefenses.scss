@@ -1,3 +1,19 @@
 .TypeDefenses {
-  margin-top: 36px;
+  display: flex;
+}
+
+.TypeResistant, .TypeWeakness {
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 4px;
+  margin: 4px;
+  width: 100%;
+  box-shadow: 4px 4px 0px;
+}
+
+.Badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

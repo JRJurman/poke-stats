@@ -1,4 +1,4 @@
-import { useState, useGlobalState, useEffect } from "tram-one"
+import { useState, useEffect } from "tram-one"
 import Pokedex from 'pokedex-promise-v2'
 const PokeAPI = new Pokedex()
 
