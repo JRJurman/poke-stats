@@ -14,17 +14,23 @@ const usePokemonName = ({clearMoves}) => {
   }
 }
 
-const usePokemonMap = ({pokemonName}) => {
-  const [pokemonMap, setPokemonMap] = useState({})
+const usePokemonData = ({pokemonVarieties, pokemonVariant}) => {
+  const [pokemonData, setPokemonMap] = useState(null)
   useEffect(async () => {
-    if (pokemonMap[pokemonName]) {
-      return pokemonMap[pokemonName]
+    const isVariantInVarities = pokemonVarieties.some(({pokemon: {name}}) => name === pokemonVariant)
+    if (pokemonVariant && isVariantInVarities) {
+      const pokemonVariantObject = await PokeAPI.getPokemonByName(pokemonVariant)
+      setPokemonMap(pokemonVariantObject)
+    } else if (pokemonVarieties.length > 0) {
+      const defaultPokemon = pokemonVarieties.find(({is_default}) => is_default);
+      const pokemonDefaultObject = await PokeAPI.getPokemonByName(defaultPokemon.pokemon.name)
+      setPokemonMap(pokemonDefaultObject)
     }
-    setPokemonMap({ ...pokemonMap, [pokemonName]: "LOADING"})
-    const pokemonObject = await PokeAPI.getPokemonByName(pokemonName.toLowerCase())
-    setPokemonMap({ ...pokemonMap, [pokemonName]: pokemonObject})
-  }, [pokemonName])
-  return { pokemonMap }
+  }, [ 
+    pokemonVariant, 
+    pokemonVarieties[0] ? pokemonVarieties[0].pokemon.name : ''
+  ])
+  return { pokemonData }
 }
 
 const usePokemonMove = () => {
@@ -49,12 +55,46 @@ const usePokemonMove = () => {
   return { pokemonMoveset, onUpdatePokemonMove, pokemonMoves, clearMoves }
 }
 
+const usePokemonVarieties = ({pokemonName}) => {
+  const [pokemonVarieties, setPokemonVarieties] = useState([])
+
+  useEffect(async () => {
+    if (pokemonName) {
+      const pokemonSpecies = await PokeAPI.getPokemonSpeciesByName(pokemonName.toLowerCase())
+      setPokemonVarieties(pokemonSpecies ? pokemonSpecies.varieties : pokemonVarieties);
+    }
+  }, [pokemonName])
+
+  return { pokemonVarieties };
+}
+
+const usePokemonVariant = ({pokemonVarieties, pokemonName}) => {
+  const [pokemonVariant, setPokemonVariant] = useState('')
+  const onUpdateVariant = ({target: {value}}) => {
+    const pokemonVariantChoice = pokemonVarieties.find(({pokemon: {name}}) => name === value)
+    setPokemonVariant(pokemonVariantChoice.pokemon.name)
+  }
+  
+  useEffect(() => {
+    if (pokemonName && pokemonVariant) {
+      setPokemonVariant('')
+    }
+  }, [pokemonName])
+
+  return { pokemonVariant, onUpdateVariant }
+}
+
 export default () => {
   const { pokemonMoveset, onUpdatePokemonMove, pokemonMoves, clearMoves } = usePokemonMove()
   const { pokemonName, onUpdatePokemonName } = usePokemonName({clearMoves})
-  const { pokemonMap } = usePokemonMap({pokemonName})
+  const { pokemonVarieties } = usePokemonVarieties({pokemonName})
+  const { pokemonVariant, onUpdateVariant } = usePokemonVariant({pokemonVarieties, pokemonName})
+  const { pokemonData } = usePokemonData({pokemonVarieties, pokemonVariant})
 
-  const pokemon = pokemonMap[pokemonName] === "LOADING" ? null : pokemonMap[pokemonName]
-
-  return { pokemon, pokemonName, onUpdatePokemonName, pokemonMoveset, onUpdatePokemonMove, pokemonMoves }
+  return { 
+    pokemon: pokemonData, 
+    pokemonName, onUpdatePokemonName, 
+    pokemonMoveset, onUpdatePokemonMove, pokemonMoves, 
+    pokemonVariant, pokemonVarieties, onUpdateVariant
+  }
 }
