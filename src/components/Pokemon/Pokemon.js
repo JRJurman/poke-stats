@@ -24,13 +24,14 @@ export default (props) => {
     pokemon, 
     pokemonName, onUpdatePokemonName, 
     pokemonMoveset, pokemonMoves, onUpdatePokemonMove, 
-    pokemonVariant, onUpdateVariant, pokemonVarieties 
+    pokemonVariant, onUpdateVariant, pokemonVarieties,
+    defaultImage 
   } = props.pokemon
 
   return html`
     <div class="Pokemon">
       <div class="Header">
-        <PokeImage pokemon=${pokemon} />
+        <PokeImage pokemon=${pokemon} defaultImage=${defaultImage} />
         <div>
           <NameInput value=${pokemonName} onUpdate=${onUpdatePokemonName} />
           <PokemonTypes pokemon=${pokemon} />

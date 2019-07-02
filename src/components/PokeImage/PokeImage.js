@@ -6,12 +6,12 @@ const html = registerHtml({
   PokeBallImage
 })
 
-export default ({pokemon}) => {
+export default ({pokemon, defaultImage}) => {
   if (!pokemon) {
     return html`<PokeBallImage />`
   }
 
   return html`
-    <img class="PokeImage" src=${pokemon && pokemon.sprites.front_default} />
+    <img class="PokeImage" src=${(pokemon && pokemon.sprites.front_default) || defaultImage} />
   `
 }
