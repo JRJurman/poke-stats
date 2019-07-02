@@ -5,12 +5,13 @@
 
 .Pokemon {
   flex: 1;
-  min-width: 25em;
+  min-width: 20em;
 }
 
 body {
   font-family: sans-serif;
   font-weight: bold;
+  padding-bottom: 2em;
 }
 
 hr {

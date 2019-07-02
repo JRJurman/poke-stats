@@ -3,12 +3,14 @@ import { registerHtml, start } from "tram-one"
 
 import TitleHeader from "./components/TitleHeader"
 import Pokemon from "./components/Pokemon";
+import PageFooter from './components/PageFooter'
 import usePokemon from "./hooks/usePokemon";
 import "./styles.scss"
 
 const html = registerHtml({
   TitleHeader,
-  Pokemon
+  Pokemon,
+  PageFooter
 })
 
 const home = () => {
@@ -44,6 +46,7 @@ const home = () => {
       <div class="PokemonContainers">
         ${pokemonComponents}
       </div>
+      <PageFooter />
     </div>
   `
 }
