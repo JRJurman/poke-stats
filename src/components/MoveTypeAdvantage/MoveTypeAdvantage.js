@@ -1,6 +1,7 @@
 import { registerHtml } from "tram-one"
 import TypeBadge from "../TypeBadge";
 import { getAttackEffectiveness } from "../../pokemon-logic/effectiveness"
+import "./MoveTypeAdvantage.scss"
 
 const html = registerHtml({
   TypeBadge
@@ -10,7 +11,10 @@ const sortByEffectiveness = (typeA, typeB) => {
   return typeB.effectiveness - typeA.effectiveness
 }
 
-export default ({ pokemonMoveset, pokemonMoves }) => {
+const filterStrong = ({effectiveness}) => effectiveness >= 1
+const filterWeak = ({effectiveness}) => effectiveness <= 1
+
+export default ({ pokemonMoveset, pokemonMoves, showEffectiveness=true }) => {
   if (!pokemonMoveset) {
     return
   }
@@ -26,13 +30,23 @@ export default ({ pokemonMoveset, pokemonMoves }) => {
   }
 
   const attackTypes = getAttackEffectiveness(types).sort(sortByEffectiveness)
-  const attackTypeBadges = attackTypes.map(({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${effectiveness} />`)
+  const strongTypes = attackTypes.filter(filterStrong).map(
+    ({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${showEffectiveness && effectiveness} />`
+  )
+  const weakTypes = attackTypes.filter(filterWeak).map(
+    ({type, effectiveness}) => html`<TypeBadge type=${type} effectiveness=${showEffectiveness && effectiveness} />`
+  )
 
   return html`
     <div class="MoveTypeAdvantage">
-      Move Type Advantage
-      <hr />
-      <div>${attackTypeBadges}</div>
+      <div class="strong-container">
+        Strong Against
+        <div class="Badges">${strongTypes}</div>
+      </div>
+      <div class="weak-container">
+        Weak Against
+        <div class="Badges">${weakTypes}</div>
+      </div>
     </div>
   `
 }

@@ -1,3 +1,14 @@
 .MoveTypeAdvantage {
   margin-top: 10px;
+  display: flex;
+}
+
+.strong-container, .weak-container {
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 4px;
+  margin: 4px;
+  width: 100%;
+  box-shadow: 4px 4px 0px;
 }
