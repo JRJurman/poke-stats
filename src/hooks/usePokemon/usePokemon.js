@@ -90,9 +90,7 @@ const useDefaultImage = ({pokemonVarieties}) => {
   useEffect(async () => {
     if (pokemonVarieties.length > 0) {
       const defaultPokemon = pokemonVarieties.find(({is_default}) => is_default).pokemon
-      console.log({defaultPokemon})
       const defaultPokemonObject = await PokeAPI.getPokemonByName(defaultPokemon.name)
-      console.log({defaultPokemonObject})
       setPokemonImage(defaultPokemonObject.sprites.front_default)
     }
   }, [pokemonVarieties])
