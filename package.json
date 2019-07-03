@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html",
+    "build": "parcel build index.html --no-content-hash",
     "test": "jest --watch",
     "prepublish": "npm run build",
     "publish": "surge dist --domain https://team-dex.surge.sh"
