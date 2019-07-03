@@ -2,9 +2,10 @@ import "babel-polyfill"
 import { registerHtml, start } from "tram-one"
 
 import TitleHeader from "./components/TitleHeader"
-import Pokemon from "./components/Pokemon";
+import Pokemon from "./components/Pokemon"
 import PageFooter from './components/PageFooter'
-import usePokemon from "./hooks/usePokemon";
+import usePokemon from "./hooks/usePokemon"
+import useSpeciesList from './hooks/useSpeciesList'
 import "./styles.scss"
 
 const html = registerHtml({
@@ -14,6 +15,7 @@ const html = registerHtml({
 })
 
 const home = () => {
+  useSpeciesList()
   const maxNumberOfPokemon = 20
 
   const pokemonObjects = [...Array(maxNumberOfPokemon)]

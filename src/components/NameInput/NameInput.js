@@ -3,8 +3,16 @@ import { registerHtml } from "tram-one"
 
 const html = registerHtml()
 
-export default ({ value, onUpdate }) => {
+export default ({value, onUpdate}) => {
   return html`
-    <input class="NameInput" value=${value} onchange=${onUpdate} placeholder="Pokemon Name" />
+    <div>
+      <input 
+        class="NameInput" 
+        list="pokemon-options" 
+        value=${value} 
+        onchange=${onUpdate} 
+        placeholder="Pokemon Name" 
+      />
+    </div>
   `
 }
