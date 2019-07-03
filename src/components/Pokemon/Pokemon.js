@@ -20,12 +20,12 @@ const html = registerHtml({
 })
 
 export default (props) => {
-  const { 
-    pokemon, 
-    pokemonName, onUpdatePokemonName, 
-    pokemonMoveset, pokemonMoves, onUpdatePokemonMove, 
+  const {
+    pokemon,
+    pokemonName, onUpdatePokemonName,
+    pokemonMoveset, pokemonMoves, onUpdatePokemonMove,
     pokemonVariant, onUpdateVariant, pokemonVarieties,
-    defaultImage 
+    defaultImage
   } = props.pokemon
 
   return html`
@@ -34,12 +34,14 @@ export default (props) => {
         <PokeImage pokemon=${pokemon} defaultImage=${defaultImage} />
         <div>
           <NameInput value=${pokemonName} onUpdate=${onUpdatePokemonName} />
-          <PokemonTypes pokemon=${pokemon} />
-          <VariantDropdown 
-            pokemonVariant=${pokemonVariant}
-            onUpdateVariant=${onUpdateVariant}
-            pokemonVarieties=${pokemonVarieties}
-          />
+          <div class="type-variant-flex">
+            <PokemonTypes pokemon=${pokemon} />
+            <VariantDropdown
+              pokemonVariant=${pokemonVariant}
+              onUpdateVariant=${onUpdateVariant}
+              pokemonVarieties=${pokemonVarieties}
+            />
+          </div>
         </div>
       </div>
       <TypeDefenses showEffectiveness=${true} pokemon=${[pokemon]} />
