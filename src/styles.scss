@@ -1,8 +1,11 @@
 .Page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100vh;
+}
+
+.PageFooter {
+  margin-top: auto;
 }
 
 .PokemonContainers {
@@ -19,6 +22,7 @@ body {
   font-family: sans-serif;
   font-weight: bold;
   margin: 0px;
+  width: 98%;
 }
 
 hr {
